@@ -182,6 +182,16 @@ You can run this on:
 
 If you want your laptop's live local SSD data, the service must run on the laptop or on an agent machine that can inspect that filesystem.
 
+## Continuous Integration
+
+This repository includes GitHub Actions CI in [.github/workflows/ci.yml](.github/workflows/ci.yml).
+
+It runs on every push and pull request to `main` and performs:
+
+- dependency install from `requirements.txt`
+- Python compile validation (`python -m compileall app`)
+- FastAPI app import smoke check
+
 ## Notes About Your Account List
 
 The example account registry already includes placeholders for these email identities you listed:
