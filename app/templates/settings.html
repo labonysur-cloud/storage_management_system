@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Storage Settings</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root { --bg:#f5f6f8; --surface:#fff; --soft:#f8f9fb; --text:#1f2937; --muted:#6b7280; --line:#e5e7eb; --accent:#1f4f46; --ok:#1f6d43; --warn:#a5531f; --danger:#b42318; --shadow:0 10px 28px rgba(17,24,39,.06);} *{box-sizing:border-box;} body{margin:0;font-family:"Inter",system-ui,sans-serif;background:linear-gradient(180deg,#f8f9fb,var(--bg));color:var(--text);} .app{min-height:100vh;display:grid;grid-template-columns:260px minmax(0,1fr);} .sidebar{border-right:1px solid var(--line);background:var(--surface);padding:22px 16px;display:grid;gap:18px;align-content:start;position:sticky;top:0;height:100vh;} .brand{padding:10px;border-radius:14px;background:var(--soft);border:1px solid var(--line);display:flex;gap:10px;align-items:center;} .brand-logo{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;background:#e6f1ee;color:var(--accent);} .brand-logo svg{width:18px;height:18px;} .brand h1{margin:0;font-size:.95rem;} .brand p{margin:2px 0 0;color:var(--muted);font-size:.78rem;} .nav{display:grid;gap:8px;} .nav a{text-decoration:none;color:var(--text);border:1px solid transparent;border-radius:12px;padding:10px 12px;display:flex;align-items:center;gap:10px;font-weight:600;transition:.14s ease;} .nav a svg{width:18px;height:18px;color:var(--muted);} .nav a:hover{background:var(--soft);border-color:var(--line);transform:translateY(-1px);} .nav a.active{background:#e6f1ee;border-color:#cddfda;} .content{padding:26px;display:grid;gap:18px;align-content:start;} .panel{border:1px solid var(--line);background:var(--surface);border-radius:18px;box-shadow:var(--shadow);padding:18px;} .head{display:flex;justify-content:space-between;gap:10px;align-items:start;} .head h2{margin:0;font-size:1.5rem;letter-spacing:-.03em;} .head p{margin:8px 0 0;color:var(--muted);max-width:72ch;line-height:1.6;} .actions{display:flex;gap:10px;flex-wrap:wrap;} button{display:inline-flex;align-items:center;gap:8px;border-radius:12px;border:1px solid var(--line);background:var(--soft);padding:10px 14px;cursor:pointer;font-family:inherit;font-weight:700;transition:.14s ease;} button.primary{background:var(--accent);border-color:transparent;color:#fff;} button:hover{transform:translateY(-1px);} button:disabled{opacity:.72;cursor:wait;transform:none;} .stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:14px;} .stat{border:1px solid var(--line);background:var(--soft);border-radius:14px;padding:12px;} .stat label{display:block;font-size:.78rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;} .stat strong{display:block;margin-top:8px;font-size:1.35rem;} .grid{display:grid;grid-template-columns:1.1fr .9fr;gap:18px;} .table{width:100%;border-collapse:collapse;margin-top:10px;} .table th,.table td{border-bottom:1px solid var(--line);padding:10px 8px;text-align:left;vertical-align:top;font-size:.9rem;} .table th{font-size:.78rem;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);} .badge{display:inline-flex;align-items:center;gap:6px;border:1px solid transparent;padding:4px 8px;border-radius:999px;font-size:.74rem;font-weight:700;text-transform:capitalize;} .badge::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor;} .ok{background:#e7f5ec;color:var(--ok);border-color:#cfe7d8;} .warn{background:#fef2e8;color:var(--warn);border-color:#f0d7c2;} .danger{background:#fef0f0;color:var(--danger);border-color:#f5d1d1;} .muted{color:var(--muted);} .skeleton{background:linear-gradient(110deg,#eef0f4 8%,#f7f8fa 18%,#eef0f4 33%);background-size:200% 100%;animation:shimmer 1.2s linear infinite;border-radius:8px;} .line{height:12px;margin:8px 0;} @keyframes shimmer{to{background-position-x:-200%;}} @media (max-width:1080px){.stats{grid-template-columns:repeat(2,minmax(0,1fr));}.grid{grid-template-columns:1fr;}} @media (max-width:860px){.app{grid-template-columns:1fr;}.sidebar{position:static;height:auto;border-right:0;border-bottom:1px solid var(--line);}.nav{grid-template-columns:repeat(2,minmax(0,1fr));}.content{padding:16px;}} @media (max-width:620px){.stats,.nav{grid-template-columns:1fr;}}
+  </style>
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-logo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 7h16"/><path d="M4 12h16"/><path d="M4 17h16"/></svg></div>
+        <div><h1>Storage Control Plane</h1><p>Unified management</p></div>
+      </div>
+      <nav class="nav">
+        <a href="/"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 12 12 4l9 8"/><path d="M5 10v10h14V10"/></svg>Dashboard</a>
+        <a href="/#providers"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="5" width="16" height="14" rx="3"/><path d="M8 9h8"/><path d="M8 13h5"/></svg>Providers</a>
+        <a class="active" href="/settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1 1 0 0 0 .2 1.1l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1 1 0 0 0-1.1-.2 1 1 0 0 0-.6.9V20a2 2 0 1 1-4 0v-.2a1 1 0 0 0-.6-.9 1 1 0 0 0-1.1.2l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1 1 0 0 0 .2-1.1 1 1 0 0 0-.9-.6H4a2 2 0 1 1 0-4h.2a1 1 0 0 0 .9-.6 1 1 0 0 0-.2-1.1l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1 1 0 0 0 1.1.2h.1a1 1 0 0 0 .6-.9V4a2 2 0 1 1 4 0v.2a1 1 0 0 0 .6.9 1 1 0 0 0 1.1-.2l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1 1 0 0 0-.2 1.1v.1a1 1 0 0 0 .9.6H20a2 2 0 1 1 0 4h-.2a1 1 0 0 0-.9.6Z"/></svg>Settings</a>
+        <a href="/api-access"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M8 9 4 12l4 3"/><path d="M16 9l4 3-4 3"/><path d="M14 5 10 19"/></svg>API Access</a>
+      </nav>
+    </aside>
+
+    <main class="content">
+      <section class="panel">
+        <div class="head">
+          <div>
+            <h2>Settings & Secret Health</h2>
+            <p>Manage account registration and verify credential readiness without exposing secret values. Only readiness status and variable names are shown.</p>
+          </div>
+          <div class="actions">
+            <button id="reloadConfigButton">Reload Config</button>
+            <button class="primary" id="refreshOverviewButton">Refresh Status</button>
+          </div>
+        </div>
+
+        <div class="stats" id="statsGrid">
+          <div class="stat"><label>Total Providers</label><strong id="providerCount">--</strong></div>
+          <div class="stat"><label>Ready Providers</label><strong id="readyProviders">--</strong></div>
+          <div class="stat"><label>Tracked Secrets</label><strong id="trackedSecrets">--</strong></div>
+          <div class="stat"><label>Configured Secrets</label><strong id="configuredSecrets">--</strong></div>
+        </div>
+      </section>
+
+      <section class="grid">
+        <section class="panel">
+          <h3>Provider Accounts</h3>
+          <table class="table" id="providersTable">
+            <thead>
+              <tr><th>Provider</th><th>Account</th><th>Type</th><th>Status</th><th>Secret Source</th></tr>
+            </thead>
+            <tbody id="providersBody"></tbody>
+          </table>
+        </section>
+
+        <section class="panel">
+          <h3>Secret Variables</h3>
+          <table class="table" id="secretsTable">
+            <thead>
+              <tr><th>Variable</th><th>Status</th></tr>
+            </thead>
+            <tbody id="secretsBody"></tbody>
+          </table>
+        </section>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    const providerCount = document.getElementById('providerCount');
+    const readyProviders = document.getElementById('readyProviders');
+    const trackedSecrets = document.getElementById('trackedSecrets');
+    const configuredSecrets = document.getElementById('configuredSecrets');
+    const providersBody = document.getElementById('providersBody');
+    const secretsBody = document.getElementById('secretsBody');
+    const reloadConfigButton = document.getElementById('reloadConfigButton');
+    const refreshOverviewButton = document.getElementById('refreshOverviewButton');
+
+    function statusBadge(ok, yesText = 'configured', noText = 'missing') {
+      return ok
+        ? `<span class="badge ok">${yesText}</span>`
+        : `<span class="badge warn">${noText}</span>`;
+    }
+
+    function showTableSkeleton() {
+      providersBody.innerHTML = '';
+      secretsBody.innerHTML = '';
+
+      for (let i = 0; i < 4; i += 1) {
+        const row = document.createElement('tr');
+        row.innerHTML = '<td><div class="line skeleton"></div></td><td><div class="line skeleton"></div></td><td><div class="line skeleton"></div></td><td><div class="line skeleton"></div></td><td><div class="line skeleton"></div></td>';
+        providersBody.appendChild(row);
+      }
+
+      for (let i = 0; i < 4; i += 1) {
+        const row = document.createElement('tr');
+        row.innerHTML = '<td><div class="line skeleton"></div></td><td><div class="line skeleton"></div></td>';
+        secretsBody.appendChild(row);
+      }
+    }
+
+    function renderOverview(data) {
+      providerCount.textContent = data.summary.provider_count;
+      readyProviders.textContent = data.summary.ready_providers;
+      trackedSecrets.textContent = data.summary.tracked_secret_variables;
+      configuredSecrets.textContent = data.summary.configured_secret_variables;
+
+      providersBody.innerHTML = '';
+      data.providers.forEach((provider) => {
+        const sources = provider.secret_checks.length
+          ? provider.secret_checks.map((item) => item.source).join(', ')
+          : 'none';
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td><strong>${provider.display_name}</strong><div class="muted" style="font-size:.82rem;margin-top:4px;">${provider.provider_id}</div></td>
+          <td>${provider.account_email || '<span class="muted">not set</span>'}</td>
+          <td>${provider.provider_type.replaceAll('_', ' ')}</td>
+          <td>${statusBadge(provider.is_ready, 'ready', 'incomplete')}</td>
+          <td>${provider.has_inline_secret ? '<span class="badge danger">inline value</span>' : `<span class="muted">${sources}</span>`}</td>
+        `;
+        providersBody.appendChild(row);
+      });
+
+      secretsBody.innerHTML = '';
+      data.secret_variables.forEach((secretVar) => {
+        const row = document.createElement('tr');
+        row.innerHTML = `<td>${secretVar.name}</td><td>${statusBadge(secretVar.configured)}</td>`;
+        secretsBody.appendChild(row);
+      });
+    }
+
+    async function loadOverview() {
+      showTableSkeleton();
+      const response = await fetch('/api/settings/overview');
+      const payload = await response.json();
+      if (!response.ok) {
+        throw new Error(payload.detail || 'Failed to load settings overview');
+      }
+      renderOverview(payload);
+    }
+
+    async function reloadConfig() {
+      const response = await fetch('/api/storage/reload-config', { method: 'POST' });
+      const payload = await response.json();
+      if (!response.ok) {
+        throw new Error(payload.detail || 'Failed to reload config');
+      }
+    }
+
+    refreshOverviewButton.addEventListener('click', async () => {
+      refreshOverviewButton.disabled = true;
+      refreshOverviewButton.textContent = 'Refreshing...';
+      try {
+        await loadOverview();
+      } finally {
+        refreshOverviewButton.disabled = false;
+        refreshOverviewButton.textContent = 'Refresh Status';
+      }
+    });
+
+    reloadConfigButton.addEventListener('click', async () => {
+      reloadConfigButton.disabled = true;
+      reloadConfigButton.textContent = 'Reloading...';
+      try {
+        await reloadConfig();
+        await loadOverview();
+      } finally {
+        reloadConfigButton.disabled = false;
+        reloadConfigButton.textContent = 'Reload Config';
+      }
+    });
+
+    loadOverview().catch((error) => {
+      providersBody.innerHTML = `<tr><td colspan="5" class="danger">${error.message}</td></tr>`;
+      secretsBody.innerHTML = `<tr><td colspan="2" class="danger">${error.message}</td></tr>`;
+    });
+  </script>
+</body>
+</html>

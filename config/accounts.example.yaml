@@ -1,0 +1,85 @@
+local_storage:
+  - id: vivobook-local
+    display_name: Asus VivoBook Local Storage
+    scan_all_partitions: true
+    paths: []
+
+google_drive:
+  - id: google-01
+    display_name: Google Drive - labonysur473
+    account_email: labonysur473@gmail.com
+    client_id: ${GOOGLE_SHARED_CLIENT_ID}
+    client_secret: ${GOOGLE_SHARED_CLIENT_SECRET}
+    refresh_token: ${GOOGLE_01_REFRESH_TOKEN}
+
+  - id: google-02
+    display_name: Google Drive - labonysur6
+    account_email: labonysur6@gmail.com
+    client_id: ${GOOGLE_SHARED_CLIENT_ID}
+    client_secret: ${GOOGLE_SHARED_CLIENT_SECRET}
+    refresh_token: ${GOOGLE_02_REFRESH_TOKEN}
+
+  - id: google-03
+    display_name: Google Drive - labonysur9
+    account_email: labonysur9@gmail.com
+    client_id: ${GOOGLE_SHARED_CLIENT_ID}
+    client_secret: ${GOOGLE_SHARED_CLIENT_SECRET}
+    refresh_token: ${GOOGLE_03_REFRESH_TOKEN}
+
+  - id: google-04
+    display_name: Google Drive - labonysur5
+    account_email: labonysur5@gmail.com
+    client_id: ${GOOGLE_SHARED_CLIENT_ID}
+    client_secret: ${GOOGLE_SHARED_CLIENT_SECRET}
+    refresh_token: ${GOOGLE_04_REFRESH_TOKEN}
+
+  - id: google-05
+    display_name: Google Drive - DIU Account
+    account_email: sur2305101473@diu.edu.bd
+    client_id: ${GOOGLE_SHARED_CLIENT_ID}
+    client_secret: ${GOOGLE_SHARED_CLIENT_SECRET}
+    refresh_token: ${GOOGLE_05_REFRESH_TOKEN}
+
+  - id: google-06
+    display_name: Google Drive - diuresourcehub
+    account_email: diuresourcehub@gmail.com
+    client_id: ${GOOGLE_SHARED_CLIENT_ID}
+    client_secret: ${GOOGLE_SHARED_CLIENT_SECRET}
+    refresh_token: ${GOOGLE_06_REFRESH_TOKEN}
+
+  - id: google-07
+    display_name: Google Drive - elaradreamshade
+    account_email: elaradreamshade@gmail.com
+    client_id: ${GOOGLE_SHARED_CLIENT_ID}
+    client_secret: ${GOOGLE_SHARED_CLIENT_SECRET}
+    refresh_token: ${GOOGLE_07_REFRESH_TOKEN}
+
+  - id: google-08
+    display_name: Google Drive - retroverse.web
+    account_email: retroverse.web@gmail.com
+    client_id: ${GOOGLE_SHARED_CLIENT_ID}
+    client_secret: ${GOOGLE_SHARED_CLIENT_SECRET}
+    refresh_token: ${GOOGLE_08_REFRESH_TOKEN}
+
+  - id: google-09
+    display_name: Google Drive - timelesslyh
+    account_email: timelesslyh@gmail.com
+    client_id: ${GOOGLE_SHARED_CLIENT_ID}
+    client_secret: ${GOOGLE_SHARED_CLIENT_SECRET}
+    refresh_token: ${GOOGLE_09_REFRESH_TOKEN}
+
+  - id: google-10
+    display_name: Google Drive - sur.cutecollection
+    account_email: sur.cutecollection@gmail.com
+    client_id: ${GOOGLE_SHARED_CLIENT_ID}
+    client_secret: ${GOOGLE_SHARED_CLIENT_SECRET}
+    refresh_token: ${GOOGLE_10_REFRESH_TOKEN}
+
+onedrive:
+  - id: onedrive-primary
+    display_name: OneDrive Primary
+    account_email: your-onedrive-account@example.com
+    client_id: ${MICROSOFT_CLIENT_ID}
+    client_secret: ${MICROSOFT_CLIENT_SECRET:-}
+    refresh_token: ${MICROSOFT_REFRESH_TOKEN}
+    tenant_id: consumers

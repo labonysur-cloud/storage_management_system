@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Unified Storage Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f5f6f8;
+      --surface: #ffffff;
+      --surface-soft: #f8f9fb;
+      --text: #1f2937;
+      --muted: #6b7280;
+      --line: #e5e7eb;
+      --accent: #1f4f46;
+      --accent-soft: #e6f1ee;
+      --danger: #b42318;
+      --ok-bg: #e7f5ec;
+      --ok-text: #1f6d43;
+      --warn-bg: #fef2e8;
+      --warn-text: #a5531f;
+      --shadow: 0 10px 28px rgba(17, 24, 39, 0.06);
+    }
+
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+
+    body {
+      margin: 0;
+      font-family: "Inter", system-ui, sans-serif;
+      background: linear-gradient(180deg, #f8f9fb 0%, var(--bg) 100%);
+      color: var(--text);
+    }
+
+    .app {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 260px minmax(0, 1fr);
+    }
+
+    .sidebar {
+      border-right: 1px solid var(--line);
+      background: var(--surface);
+      padding: 22px 16px;
+      display: grid;
+      align-content: start;
+      gap: 18px;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+    }
+
+    .brand {
+      padding: 10px;
+      border-radius: 14px;
+      background: var(--surface-soft);
+      border: 1px solid var(--line);
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .brand-logo {
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      display: grid;
+      place-items: center;
+      background: var(--accent-soft);
+      color: var(--accent);
+    }
+
+    .brand-logo svg { width: 18px; height: 18px; }
+
+    .brand h1 {
+      margin: 0;
+      font-size: 0.95rem;
+      line-height: 1.2;
+    }
+
+    .brand p {
+      margin: 2px 0 0;
+      color: var(--muted);
+      font-size: 0.78rem;
+    }
+
+    .nav {
+      display: grid;
+      gap: 8px;
+    }
+
+    .nav a {
+      text-decoration: none;
+      color: var(--text);
+      border: 1px solid transparent;
+      border-radius: 12px;
+      padding: 10px 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 600;
+      transition: background 140ms ease, transform 140ms ease, border-color 140ms ease;
+    }
+
+    .nav a svg { width: 18px; height: 18px; color: var(--muted); }
+    .nav a:hover { background: var(--surface-soft); border-color: var(--line); transform: translateY(-1px); }
+    .nav a.active { background: var(--accent-soft); border-color: #cddfda; }
+    .nav a.active svg { color: var(--accent); }
+
+    .content {
+      padding: 26px;
+      display: grid;
+      align-content: start;
+      gap: 18px;
+    }
+
+    .hero, .panel {
+      border: 1px solid var(--line);
+      background: var(--surface);
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+    }
+
+    .hero {
+      padding: 22px;
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      align-items: start;
+    }
+
+    .hero h2 {
+      margin: 0;
+      font-size: clamp(1.5rem, 3vw, 2.1rem);
+      letter-spacing: -0.03em;
+    }
+
+    .hero p {
+      margin: 10px 0 0;
+      color: var(--muted);
+      max-width: 65ch;
+      line-height: 1.65;
+    }
+
+    .actions { display: flex; gap: 10px; flex-wrap: wrap; }
+
+    button {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border-radius: 12px;
+      border: 1px solid transparent;
+      padding: 10px 14px;
+      cursor: pointer;
+      font-family: inherit;
+      font-weight: 700;
+      transition: transform 140ms ease, opacity 140ms ease;
+    }
+
+    button svg { width: 16px; height: 16px; }
+    button:hover { transform: translateY(-1px); }
+    button:disabled { opacity: 0.72; cursor: wait; transform: none; }
+    .primary { background: var(--accent); color: #fff; }
+    .secondary { background: var(--surface-soft); border-color: var(--line); color: var(--text); }
+
+    .summary {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      padding: 16px;
+    }
+
+    .metric {
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: var(--surface-soft);
+      padding: 14px;
+      display: grid;
+      gap: 8px;
+      transition: transform 180ms ease;
+    }
+
+    .metric:hover { transform: translateY(-1px); }
+    .metric-label { font-size: 0.84rem; color: var(--muted); font-weight: 600; }
+    .metric-value { font-size: 1.7rem; font-weight: 800; letter-spacing: -0.03em; }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1.35fr 0.9fr;
+      gap: 18px;
+    }
+
+    .panel { padding: 18px; }
+
+    .panel-head { display: flex; justify-content: space-between; gap: 10px; align-items: start; }
+    .panel-head h3 { margin: 0; font-size: 1.05rem; }
+    .panel-head p { margin: 6px 0 0; color: var(--muted); font-size: 0.92rem; }
+
+    .tag {
+      border: 1px solid var(--line);
+      background: var(--surface-soft);
+      border-radius: 999px;
+      padding: 6px 10px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--muted);
+    }
+
+    .provider-list { display: grid; gap: 12px; margin-top: 14px; }
+
+    .provider {
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 14px;
+      background: var(--surface-soft);
+      animation: fadeInUp 260ms ease both;
+    }
+
+    .provider-top { display: flex; justify-content: space-between; gap: 10px; align-items: start; }
+    .provider-title { display: flex; gap: 10px; }
+
+    .icon-box {
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      border: 1px solid var(--line);
+      background: #fff;
+      display: grid;
+      place-items: center;
+      color: var(--accent);
+      flex-shrink: 0;
+    }
+
+    .icon-box svg { width: 17px; height: 17px; }
+    .provider h4 { margin: 0; font-size: 0.95rem; }
+    .provider .meta { margin-top: 4px; color: var(--muted); font-size: 0.84rem; text-transform: capitalize; }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      border-radius: 999px;
+      padding: 5px 9px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: capitalize;
+      border: 1px solid transparent;
+    }
+
+    .badge::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+    .badge.online { background: var(--ok-bg); color: var(--ok-text); border-color: #cfe7d8; }
+    .badge.offline { background: var(--warn-bg); color: var(--warn-text); border-color: #f0d7c2; }
+
+    .bar {
+      margin-top: 12px;
+      height: 8px;
+      border-radius: 999px;
+      background: #e7e9ee;
+      overflow: hidden;
+    }
+
+    .bar span {
+      display: block;
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, #1f4f46, #3a7569);
+      transition: width 360ms cubic-bezier(.2,.8,.2,1);
+    }
+
+    .provider-meta { margin-top: 12px; display: flex; gap: 8px; flex-wrap: wrap; }
+    .pill {
+      padding: 6px 9px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: #fff;
+      color: var(--muted);
+      font-size: 0.78rem;
+      font-weight: 600;
+    }
+
+    .insights-box {
+      margin-top: 12px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: var(--surface-soft);
+      min-height: 240px;
+      padding: 14px;
+      white-space: pre-wrap;
+      line-height: 1.65;
+      color: var(--text);
+      transition: opacity 180ms ease;
+    }
+
+    .muted { color: var(--muted); }
+    .error { color: var(--danger); }
+
+    .skeleton {
+      background: linear-gradient(110deg, #eef0f4 8%, #f7f8fa 18%, #eef0f4 33%);
+      background-size: 200% 100%;
+      animation: shimmer 1.2s linear infinite;
+      border-radius: 10px;
+    }
+
+    .metric-skeleton { height: 35px; width: 70%; }
+
+    .provider-skeleton {
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 14px;
+      background: var(--surface-soft);
+      display: grid;
+      gap: 10px;
+    }
+
+    .provider-skeleton .line { height: 10px; }
+    .provider-skeleton .line.short { width: 36%; }
+    .provider-skeleton .line.mid { width: 62%; }
+    .provider-skeleton .line.full { width: 100%; }
+
+    @keyframes shimmer {
+      to { background-position-x: -200%; }
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 1080px) {
+      .summary { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .grid { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 860px) {
+      .app { grid-template-columns: 1fr; }
+      .sidebar {
+        position: static;
+        height: auto;
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+      }
+      .nav { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .content { padding: 16px; }
+      .hero { flex-direction: column; }
+    }
+
+    @media (max-width: 620px) {
+      .summary { grid-template-columns: 1fr; }
+      .nav { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-logo">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M4 7h16" /><path d="M4 12h16" /><path d="M4 17h16" />
+          </svg>
+        </div>
+        <div>
+          <h1>Storage Control Plane</h1>
+          <p>Unified management</p>
+        </div>
+      </div>
+
+      <nav class="nav">
+        <a class="active" href="/">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 12 12 4l9 8"/><path d="M5 10v10h14V10"/></svg>
+          Dashboard
+        </a>
+        <a href="/#providers">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="5" width="16" height="14" rx="3"/><path d="M8 9h8"/><path d="M8 13h5"/></svg>
+          Providers
+        </a>
+        <a href="/settings">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1 1 0 0 0 .2 1.1l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1 1 0 0 0-1.1-.2 1 1 0 0 0-.6.9V20a2 2 0 1 1-4 0v-.2a1 1 0 0 0-.6-.9 1 1 0 0 0-1.1.2l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1 1 0 0 0 .2-1.1 1 1 0 0 0-.9-.6H4a2 2 0 1 1 0-4h.2a1 1 0 0 0 .9-.6 1 1 0 0 0-.2-1.1l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1 1 0 0 0 1.1.2h.1a1 1 0 0 0 .6-.9V4a2 2 0 1 1 4 0v.2a1 1 0 0 0 .6.9 1 1 0 0 0 1.1-.2l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1 1 0 0 0-.2 1.1v.1a1 1 0 0 0 .9.6H20a2 2 0 1 1 0 4h-.2a1 1 0 0 0-.9.6Z"/></svg>
+          Settings
+        </a>
+        <a href="/api-access">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M8 9 4 12l4 3"/><path d="M16 9l4 3-4 3"/><path d="M14 5 10 19"/></svg>
+          API Access
+        </a>
+      </nav>
+    </aside>
+
+    <main class="content">
+      <section class="hero">
+        <div>
+          <h2>Unified storage visibility</h2>
+          <p>Track local, Google Drive, and OneDrive capacity in one clean dashboard. Refresh data in real-time and generate recommendations with AI when needed.</p>
+        </div>
+        <div class="actions">
+          <button class="primary" id="refreshButton">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 12a9 9 0 1 1-2.64-6.36"/><path d="M21 3v6h-6"/></svg>
+            Refresh
+          </button>
+          <button class="secondary" id="insightsButton">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3 14.8 8.7 21 12l-6.2 3.3L12 21l-2.8-5.7L3 12l6.2-3.3L12 3Z"/></svg>
+            AI Insights
+          </button>
+        </div>
+      </section>
+
+      <section class="hero summary" id="summaryPanel">
+        <article class="metric"><div class="metric-label">Total Capacity</div><div class="metric-value" id="totalCapacity">--</div></article>
+        <article class="metric"><div class="metric-label">Used</div><div class="metric-value" id="usedCapacity">--</div></article>
+        <article class="metric"><div class="metric-label">Free</div><div class="metric-value" id="freeCapacity">--</div></article>
+        <article class="metric"><div class="metric-label">Providers Online</div><div class="metric-value" id="onlineProviders">--</div></article>
+      </section>
+
+      <section class="grid">
+        <section class="panel" id="providers">
+          <div class="panel-head">
+            <div>
+              <h3>Providers</h3>
+              <p>Real-time status from each connected storage provider.</p>
+            </div>
+            <span class="tag">Live scan</span>
+          </div>
+          <div class="provider-list" id="providerList"></div>
+        </section>
+
+        <section class="panel">
+          <div class="panel-head">
+            <div>
+              <h3>AI Insights</h3>
+              <p>Recommendations for cleanup, balancing, and next steps.</p>
+            </div>
+            <span class="tag">Anthropic</span>
+          </div>
+          <div class="insights-box" id="insightsBody">No insights generated yet.</div>
+        </section>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    const totalCapacity = document.getElementById('totalCapacity');
+    const usedCapacity = document.getElementById('usedCapacity');
+    const freeCapacity = document.getElementById('freeCapacity');
+    const onlineProviders = document.getElementById('onlineProviders');
+    const providerList = document.getElementById('providerList');
+    const insightsBody = document.getElementById('insightsBody');
+    const refreshButton = document.getElementById('refreshButton');
+    const insightsButton = document.getElementById('insightsButton');
+
+    function providerIcon(type) {
+      if (type === 'google_drive') {
+        return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M7 5h10l4 7-5 7H6l-4-7 5-7Z"/><path d="M7 5l5 7" opacity="0.65"/><path d="M17 5l-5 7" opacity="0.65"/></svg>';
+      }
+      if (type === 'onedrive') {
+        return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M8.8 17.5H18a3 3 0 0 0 .4-6 5.2 5.2 0 0 0-9.7-1.6A4.1 4.1 0 0 0 8.8 17.5Z"/><path d="M7.8 17.5H6.4a2.9 2.9 0 1 1 .5-5.7"/></svg>';
+      }
+      return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><ellipse cx="12" cy="6.5" rx="7" ry="3.5"/><path d="M5 6.5v11c0 1.93 3.13 3.5 7 3.5s7-1.57 7-3.5v-11"/><path d="M5 12c0 1.93 3.13 3.5 7 3.5s7-1.57 7-3.5"/></svg>';
+    }
+
+    function formatBytes(bytes) {
+      if (!bytes) return '0 B';
+      const units = ['B', 'KB', 'MB', 'GB', 'TB', 'PB'];
+      let value = bytes;
+      let index = 0;
+      while (value >= 1024 && index < units.length - 1) {
+        value /= 1024;
+        index += 1;
+      }
+      return `${value.toFixed(value >= 100 || index === 0 ? 0 : 2)} ${units[index]}`;
+    }
+
+    function showSummarySkeleton() {
+      [totalCapacity, usedCapacity, freeCapacity, onlineProviders].forEach((element) => {
+        element.innerHTML = '<div class="skeleton metric-skeleton"></div>';
+      });
+    }
+
+    function showProviderSkeletons() {
+      providerList.innerHTML = '';
+      for (let index = 0; index < 3; index += 1) {
+        const block = document.createElement('div');
+        block.className = 'provider-skeleton';
+        block.innerHTML = `
+          <div class="line short skeleton"></div>
+          <div class="line mid skeleton"></div>
+          <div class="line full skeleton"></div>
+        `;
+        providerList.appendChild(block);
+      }
+    }
+
+    function renderProviders(providers) {
+      providerList.innerHTML = '';
+      if (!providers.length) {
+        providerList.innerHTML = '<div class="muted">No providers configured.</div>';
+        return;
+      }
+
+      providers.forEach((provider) => {
+        const metrics = provider.metrics || { total_bytes: 0, used_bytes: 0, free_bytes: 0, usage_percent: 0 };
+        const card = document.createElement('article');
+        card.className = 'provider';
+        card.innerHTML = `
+          <div class="provider-top">
+            <div class="provider-title">
+              <div class="icon-box">${providerIcon(provider.provider_type)}</div>
+              <div>
+                <h4>${provider.display_name}</h4>
+                <div class="meta">${provider.provider_type.replaceAll('_', ' ')}${provider.account_email ? ` • ${provider.account_email}` : ''}</div>
+              </div>
+            </div>
+            <span class="badge ${provider.status}">${provider.status}</span>
+          </div>
+          <div class="bar"><span style="width:${Math.min(metrics.usage_percent || 0, 100)}%"></span></div>
+          <div class="provider-meta">
+            <span class="pill">Total ${formatBytes(metrics.total_bytes)}</span>
+            <span class="pill">Used ${formatBytes(metrics.used_bytes)}</span>
+            <span class="pill">Free ${formatBytes(metrics.free_bytes)}</span>
+            <span class="pill">${(metrics.usage_percent || 0).toFixed(2)}%</span>
+          </div>
+          ${provider.message ? `<div class="error" style="margin-top:10px;">${provider.message}</div>` : ''}
+        `;
+        providerList.appendChild(card);
+      });
+    }
+
+    async function loadSummary(forceRefresh = false) {
+      showSummarySkeleton();
+      showProviderSkeletons();
+
+      const response = await fetch(`/api/storage/summary?force_refresh=${forceRefresh}`);
+      const summary = await response.json();
+
+      totalCapacity.textContent = formatBytes(summary.total_bytes);
+      usedCapacity.textContent = formatBytes(summary.used_bytes);
+      freeCapacity.textContent = formatBytes(summary.free_bytes);
+      onlineProviders.textContent = `${summary.online_providers} / ${summary.providers.length}`;
+      renderProviders(summary.providers || []);
+    }
+
+    async function loadInsights() {
+      insightsBody.innerHTML = '<div class="skeleton" style="height:12px;width:70%;margin-bottom:10px;"></div><div class="skeleton" style="height:12px;width:95%;margin-bottom:10px;"></div><div class="skeleton" style="height:12px;width:82%;"></div>';
+      try {
+        const response = await fetch('/api/ai/insights', { method: 'POST' });
+        const payload = await response.json();
+        if (!response.ok) {
+          throw new Error(payload.detail || 'Unable to generate insights.');
+        }
+        insightsBody.textContent = payload.insights || 'No insight text returned.';
+      } catch (error) {
+        insightsBody.innerHTML = `<span class="error">${error.message}</span>`;
+      }
+    }
+
+    refreshButton.addEventListener('click', async () => {
+      refreshButton.disabled = true;
+      refreshButton.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 12a9 9 0 1 1-2.64-6.36"/><path d="M21 3v6h-6"/></svg>Refreshing...';
+      try {
+        await loadSummary(true);
+      } finally {
+        refreshButton.disabled = false;
+        refreshButton.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 12a9 9 0 1 1-2.64-6.36"/><path d="M21 3v6h-6"/></svg>Refresh';
+      }
+    });
+
+    insightsButton.addEventListener('click', async () => {
+      insightsButton.disabled = true;
+      insightsButton.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3 14.8 8.7 21 12l-6.2 3.3L12 21l-2.8-5.7L3 12l6.2-3.3L12 3Z"/></svg>Generating...';
+      try {
+        await loadInsights();
+      } finally {
+        insightsButton.disabled = false;
+        insightsButton.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3 14.8 8.7 21 12l-6.2 3.3L12 21l-2.8-5.7L3 12l6.2-3.3L12 3Z"/></svg>AI Insights';
+      }
+    });
+
+    loadSummary().catch((error) => {
+      providerList.innerHTML = `<div class="error">${error.message}</div>`;
+    });
+  </script>
+</body>
+</html>
