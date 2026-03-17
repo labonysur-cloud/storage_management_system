@@ -192,20 +192,6 @@ It runs on every push and pull request to `main` and performs:
 - Python compile validation (`python -m compileall app`)
 - FastAPI app import smoke check
 
-## Notes About Your Account List
-
-The example account registry already includes placeholders for these email identities you listed:
-
-- `labonysur473@gmail.com`
-- `labonysur6@gmail.com`
-- `labonysur9@gmail.com`
-- `labonysur5@gmail.com`
-- `sur2305101473@diu.edu.bd`
-- `diuresourcehub@gmail.com`
-- `elaradreamshade@gmail.com`
-- `retroverse.web@gmail.com`
-- `timelesslyh@gmail.com`
-- `sur.cutecollection@gmail.com`
 
 Add the right non-secret account entries in `config/accounts.yaml`, and store the actual credentials in `.env`.
 
